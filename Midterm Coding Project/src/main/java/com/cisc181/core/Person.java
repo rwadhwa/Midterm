@@ -17,6 +17,8 @@ public abstract class Person implements java.io.Serializable {
 	private String address;
 	private String phone_number;
 	private String email_address;
+	private static final String  regex = "^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$"; 
+	private Pattern pattern;
 
 	public String getFirstName() {
 		return FirstName;
@@ -81,7 +83,7 @@ public abstract class Person implements java.io.Serializable {
 	 * Constructors No Arg Constructor
 	 */
 	public Person() {
-
+		this.pattern = Pattern.compile(regex);
 	}
 
 	/*
@@ -98,7 +100,7 @@ public abstract class Person implements java.io.Serializable {
 		this.address = Address;
 		this.setPhone(Phone_number);
 		this.email_address = Email;
-		
+		this.pattern = Pattern.compile(regex);
 	}
 
 	public void PrintName() {
@@ -110,7 +112,7 @@ public abstract class Person implements java.io.Serializable {
 		System.out.println(this.DOB);
 	}
 
-	public int PrintAge() {
+	public int PrintAge() throws PersonException {
 		Calendar today = Calendar.getInstance();
 		Calendar birthDate = Calendar.getInstance();
 
@@ -120,7 +122,9 @@ public abstract class Person implements java.io.Serializable {
 			throw new IllegalArgumentException("Can't be born in the future");
 		}
 		age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
-
+        if(age > 100) {
+    	    throw new PersonException("Person age cannot be more hundred years old",this);
+        }
 		// If birth date is greater than todays date (after 2 days adjustment of
 		// leap year) then decrement age one year
 		if ((birthDate.get(Calendar.DAY_OF_YEAR)
@@ -140,5 +144,15 @@ public abstract class Person implements java.io.Serializable {
 
 		return age;
 
+	}
+	public void PrintPhoneNumber() throws PersonException {
+		if(!isPhoneValid(this.phone_number)) {
+			throw new PersonException("Person Phone Number is not valid ",this);
+		}
+		System.out.println("phone_number is " + phone_number);
+	}
+	
+	private boolean isPhoneValid(String phoneNo) {
+		 return pattern.matcher(phoneNo).matches();
 	}
 }

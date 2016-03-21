@@ -6,20 +6,39 @@ public class Enrollment {
 	private UUID SectionID;
 	private UUID StudentID;
 	private UUID EnrollmentID;
-	private double Grade;
+	
+	public Enrollment() {
+	}
+	
+	public Enrollment(UUID sectionID, UUID studentID) {
+		this.SectionID = sectionID;
+		this.StudentID = studentID;
+		this.EnrollmentID =  UUID.randomUUID();
+	}
 
-	private Enrollment(){
-		
+	public UUID getSectionID() {
+		return SectionID;
 	}
-	
-	public Enrollment(UUID StudentID, UUID SectionID){
-		this.StudentID = StudentID;
-		this.SectionID = SectionID;
-		EnrollmentID = new UUID(0, 0);
+	public void setSectionID(UUID sectionID) {
+		this.SectionID = sectionID;
 	}
-	
-	public void SetGrade (double grade){
+	public UUID getStudentID() {
+		return StudentID;
+	}
+	public void setStudentID(UUID studentID) {
+		this.StudentID = studentID;
+	}
+	public UUID getEnrollmentID() {
+		return EnrollmentID;
+	}
+	public void setEnrollmentID(UUID enrollmentID) {
+		this.EnrollmentID = enrollmentID;
+	}
+	public double getGrade() {
+		return Grade;
+	}
+	public void setGrade(double grade) {
 		this.Grade = grade;
 	}
-	
-}
+	private double Grade;
+} 
